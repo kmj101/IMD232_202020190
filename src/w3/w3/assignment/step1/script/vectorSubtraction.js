@@ -7,7 +7,9 @@ function draw() {
 
 function setup() {
   setCanvasContainer('canvas', 3, 2, true);
-  pos = createVector;
+  this.pos;
+  this.vel = createVector(0, 0);
+  this.acc = createVector(0, 0);
 }
 
 function draw() {
