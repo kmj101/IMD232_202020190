@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link
+      href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
+      rel="stylesheet"
+      type="text/css" />
+    <link rel="stylesheet" href="../../../style/style.css" />
+    <script type="module" src="../../../script/setTitle.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@latest/lib/p5.js"></script>
+    <script src="../../../script/p5Util.js" defer></script>
+    <script src="./sketch/easing_full.js" defer></script>
+    <script src="./sketch/sketch.js" defer></script>
+  </head>
+  <body>
+    <div class="container container--width-fixed">
+      <!-- <nav></nav> -->
+      <main>
+        <section id="header">
+          <div class="center">
+            <h1 class="title"></h1>
+            <!-- <p></p> -->
+          </div>
+        </section>
+        <section>
+          <div class="center">
+            <div id="canvas"></div>
+          </div>
+        </section>
+        <section>
+          <div class="center">
+            <div id="canvas">
+              <div>
+                <label for="sliderCpAX">cpAX</label>
+                <input
+                  type="range"
+                  id="sliderCpAX"
+                  class="cpSlider"
+                  min="0"
+                  max="1"
+                  value="0.8"
+                  step="any" />
+                <span id="valCpAX"></span>
+              </div>
+              <div>
+                <label for="sliderCpAY">cpAY</label>
+                <input
+                  type="range"
+                  id="sliderCpAY"
+                  class="cpSlider"
+                  min="0"
+                  max="1"
+                  value="0.1"
+                  step="any" />
+                <span id="valCpAY"></span>
+              </div>
+              <div>
+                <label for="sliderCpBX">cpBX</label>
+                <input
+                  type="range"
+                  id="sliderCpBX"
+                  class="cpSlider"
+                  min="0"
+                  max="1"
+                  value="0.9"
+                  step="any" />
+                <span id="valCpBX"></span>
+              </div>
+              <div>
+                <label for="sliderCpBY">cpBY</label>
+                <input
+                  type="range"
+                  id="sliderCpBY"
+                  class="cpSlider"
+                  min="0"
+                  max="1"
+                  value="0.2"
+                  step="any" />
+                <span id="valCpBY"></span>
+              </div>
+              <div>
+                <label for="sliderDuration">duration(sec)</label>
+                <input
+                  type="range"
+                  id="sliderDuration"
+                  class="durationSlider"
+                  min="0.1"
+                  max="5"
+                  value="1"
+                  step="0.1" />
+                <span id="valDuration">1.000000</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer></footer>
+    </div>
+  </body>
+</html>
