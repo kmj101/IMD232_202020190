@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easing Graph</title>
+    <link
+      href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
+      rel="stylesheet"
+      type="text/css" />
+    <link rel="stylesheet" href="../../../style/style.css" />
+
+    <link rel="stylesheet" href="../../../plugin/prism/prism.css" />
+    <link rel="stylesheet" href="../../../plugin/prism/theme.css" />
+    <script src="../../../plugin/prism/prism.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@latest/lib/p5.js"></script>
+    <script src="../../../script/p5Util.js" defer></script>
+    <script src="./script/sketch.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <section>
+        <div class="container">
+          <h1>Easing Graph</h1>
+        </div>
+      </section>
+    </header>
+    <main>
+      <section>
+        <div class="container">
+          <div id="canvas"></div>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <div>
+            <label for="cpAX">cpAX</label>
+            <input
+              type="range"
+              id="sliderCpAX"
+              class="cpSlider"
+              min="0"
+              max="1"
+              value="0.0"
+              step="any" />
+            <span id="valCpAX"></span>
+          </div>
+          <div>
+            <label for="cpAY">cpAY</label>
+            <input
+              type="range"
+              id="sliderCpAY"
+              class="cpSlider"
+              min="0"
+              max="1"
+              value="0.0"
+              step="any" />
+            <span id="valCpAY"></span>
+          </div>
+          <div>
+            <label for="cpBX">cpBX</label>
+            <input
+              type="range"
+              id="sliderCpBX"
+              class="cpSlider"
+              min="0"
+              max="1"
+              value="1"
+              step="any" />
+            <span id="valCpBX"></span>
+          </div>
+          <div>
+            <label for="cpBY">cpBY</label>
+            <input
+              type="range"
+              id="sliderCpBY"
+              class="cpSlider"
+              min="0"
+              max="1"
+              value="1"
+              step="any" />
+            <span id="valCpBY"></span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <h3>코드</h3>
+          <h6>sketch.js</h6>
+          <pre
+            class="line-numbers"
+            data-src="./script/sketch.js"
+            data-download-link></pre>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <section>
+        <div class="container"></div>
+      </section>
+    </footer>
+  </body>
+</html>
