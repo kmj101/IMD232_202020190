@@ -11,7 +11,7 @@ class Body {
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
     this.mass = m;
-    this.radius = this.mass ** (1 / 2) * 50;
+    this.radius = this.mass ** (1 / 2) * 100;
     this.velocityVisualization = createVector(0, 0);
     this.accelerationVisualization = createVector(0, 0);
   }
@@ -49,7 +49,7 @@ class Body {
     circle(
       this.position.x,
       this.position.y,
-      this.radius * 1,
+      (this.radius * 1) / 2,
       this.mass * 16,
       100
     );
