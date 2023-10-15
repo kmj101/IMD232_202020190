@@ -6,12 +6,12 @@
 //Modified by OO-SUNG SON (spctrm404)
 
 class Body {
-  constructor(x, y) {
+  constructor(x, y, m) {
     this.position = createVector(x, y);
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
-    this.mass = 8;
-    this.radius = this.mass ** (1 / 2) * 4;
+    this.mass = m;
+    this.radius = this.mass ** (1 / 2) * 50;
     this.velocityVisualization = createVector(0, 0);
     this.accelerationVisualization = createVector(0, 0);
   }
@@ -34,7 +34,7 @@ class Body {
     this.position.add(this.velocity);
 
     this.velocityVisualization.set(this.velocity);
-    this.velocityVisualization.mult(10);
+    this.velocityVisualization.mult(20);
 
     this.accelerationVisualization.set(this.acceleration);
     this.accelerationVisualization.mult(100);
@@ -44,9 +44,15 @@ class Body {
 
   display() {
     stroke(0);
-    strokeWeight(2);
-    fill(127, 127);
-    circle(this.position.x, this.position.y, this.radius * 2);
+    strokeWeight(0);
+    fill(10, 150);
+    circle(
+      this.position.x,
+      this.position.y,
+      this.radius * 1,
+      this.mass * 16,
+      100
+    );
   }
 
   displayVectors() {
