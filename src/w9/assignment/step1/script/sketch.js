@@ -1,24 +1,23 @@
-const {
-  Engine,
-  Render,
-  Runner,
-  Body,
-  Composite,
-  Composites,
-  Constraint,
-  MouseConstraint,
-  Mouse,
-  Bodies,
-  Vertices,
-} = Matter;
+var Engine = Matter.Engine,
+  Render = Matter.Render,
+  Runner = Matter.Runner,
+  Body = Matter.Body,
+  Composite = Matter.Composite,
+  Composites = Matter.Composites,
+  Constraint = Matter.Constraint,
+  MouseConstraint = Matter.MouseConstraint,
+  Mouse = Matter.Mouse,
+  Bodies = Matter.Bodies,
+  Vertices = Matter.Vertices;
 
-// Create Matter.js engine and world
-const engine = Engine.create();
-const world = engine.world;
+// create engine
+var engine = Engine.create(),
+  world = engine.world;
 
-// Create renderer
-const render = Render.create({
-  element: document.body,
+// create renderer
+const elem = document.querySelector('#canvas');
+var render = Render.create({
+  element: elem,
   engine: engine,
   options: {
     width: 800,
@@ -31,14 +30,15 @@ const render = Render.create({
 
 Render.run(render);
 
-// Create runner
-const runner = Runner.create();
+// create runner
+var runner = Runner.create();
 Runner.run(runner, engine);
 
-// Add bodies
-let group = Body.nextGroup(true);
+// add bodies
+var group = Body.nextGroup(true);
 
-const ropeA = Composites.stack(100, 50, 8, 1, 10, 10, (x, y) => {
+// First chain (pink)
+var ropeA = Composites.stack(100, 50, 8, 1, 10, 10, function (x, y) {
   return Bodies.rectangle(x, y, 50, 20, {
     collisionFilter: { group: group },
     render: { fillStyle: '#FF1493' }, // Pink color
@@ -66,12 +66,12 @@ Composite.add(
 
 group = Body.nextGroup(true);
 
-// Create a concave shape for ropeB
-const ropeBVertices = Vertices.fromPath('0 0 20 0 40 20 20 40');
-const ropeB = Body.create({
+// Second chain (green) - Concave shape
+var ropeBVertices = Vertices.fromPath('0 0 20 0 40 20 20 40');
+var ropeB = Body.create({
   parts: Bodies.fromVertices(350, 50, ropeBVertices, {
     collisionFilter: { group: group },
-    render: { fillStyle: '#00FF00' }, // Lime color
+    render: { fillStyle: '#00FF00' }, // Green color
   }),
 });
 
@@ -98,7 +98,8 @@ Composite.add(
 
 group = Body.nextGroup(true);
 
-const ropeC = Composites.stack(600, 50, 13, 1, 10, 10, (x, y) => {
+// Third chain (blue)
+var ropeC = Composites.stack(600, 50, 13, 1, 10, 10, function (x, y) {
   return Bodies.rectangle(x - 20, y, 50, 20, {
     collisionFilter: { group: group },
     chamfer: 5,
@@ -127,24 +128,24 @@ Composite.add(world, [
   Bodies.rectangle(400, 600, 1200, 50.5, { isStatic: true }),
 ]);
 
-// Add mouse control
-const mouse = Mouse.create(render.canvas);
-const mouseConstraint = MouseConstraint.create(engine, {
-  mouse: mouse,
-  constraint: {
-    stiffness: 0.2,
-    render: {
-      visible: false,
+// add mouse control
+var mouse = Mouse.create(render.canvas),
+  mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+      stiffness: 0.2,
+      render: {
+        visible: false,
+      },
     },
-  },
-});
+  });
 
 Composite.add(world, mouseConstraint);
 
-// Keep the mouse in sync with rendering
+// keep the mouse in sync with rendering
 render.mouse = mouse;
 
-// Fit the render viewport to the scene
+// fit the render viewport to the scene
 Render.lookAt(render, {
   min: { x: 0, y: 0 },
   max: { x: 700, y: 600 },
