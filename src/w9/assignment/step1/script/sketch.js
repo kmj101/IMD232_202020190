@@ -1,21 +1,23 @@
-var Engine = Matter.Engine,
-  Render = Matter.Render,
-  Runner = Matter.Runner,
-  Body = Matter.Body,
-  Composite = Matter.Composite,
-  Composites = Matter.Composites,
-  Constraint = Matter.Constraint,
-  MouseConstraint = Matter.MouseConstraint,
-  Mouse = Matter.Mouse,
-  Bodies = Matter.Bodies,
-  Vertices = Matter.Vertices;
+const {
+  Engine,
+  Render,
+  Runner,
+  Body,
+  Composite,
+  Composites,
+  Constraint,
+  MouseConstraint,
+  Mouse,
+  Bodies,
+  Vertices,
+} = Matter;
 
 // Create Matter.js engine and world
-var engine = Engine.create(),
-  world = engine.world;
+const engine = Engine.create();
+const world = engine.world;
 
 // Create renderer
-var render = Render.create({
+const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
@@ -30,13 +32,13 @@ var render = Render.create({
 Render.run(render);
 
 // Create runner
-var runner = Runner.create();
+const runner = Runner.create();
 Runner.run(runner, engine);
 
 // Add bodies
-var group = Body.nextGroup(true);
+let group = Body.nextGroup(true);
 
-var ropeA = Composites.stack(100, 50, 8, 1, 10, 10, function (x, y) {
+const ropeA = Composites.stack(100, 50, 8, 1, 10, 10, (x, y) => {
   return Bodies.rectangle(x, y, 50, 20, {
     collisionFilter: { group: group },
     render: { fillStyle: '#FF1493' }, // Pink color
@@ -65,8 +67,8 @@ Composite.add(
 group = Body.nextGroup(true);
 
 // Create a concave shape for ropeB
-var ropeBVertices = Vertices.fromPath('0 0 20 0 40 20 20 40');
-var ropeB = Body.create({
+const ropeBVertices = Vertices.fromPath('0 0 20 0 40 20 20 40');
+const ropeB = Body.create({
   parts: Bodies.fromVertices(350, 50, ropeBVertices, {
     collisionFilter: { group: group },
     render: { fillStyle: '#00FF00' }, // Lime color
@@ -96,7 +98,7 @@ Composite.add(
 
 group = Body.nextGroup(true);
 
-var ropeC = Composites.stack(600, 50, 13, 1, 10, 10, function (x, y) {
+const ropeC = Composites.stack(600, 50, 13, 1, 10, 10, (x, y) => {
   return Bodies.rectangle(x - 20, y, 50, 20, {
     collisionFilter: { group: group },
     chamfer: 5,
@@ -126,16 +128,16 @@ Composite.add(world, [
 ]);
 
 // Add mouse control
-var mouse = Mouse.create(render.canvas),
-  mouseConstraint = MouseConstraint.create(engine, {
-    mouse: mouse,
-    constraint: {
-      stiffness: 0.2,
-      render: {
-        visible: false,
-      },
+const mouse = Mouse.create(render.canvas);
+const mouseConstraint = MouseConstraint.create(engine, {
+  mouse: mouse,
+  constraint: {
+    stiffness: 0.2,
+    render: {
+      visible: false,
     },
-  });
+  },
+});
 
 Composite.add(world, mouseConstraint);
 
