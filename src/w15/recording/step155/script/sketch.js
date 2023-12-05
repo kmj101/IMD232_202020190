@@ -1,186 +1,77 @@
-//Raven Kwok aka Guo, Ruiwen
-//ravenkwok.com
-//vimeo.com/ravenkwok
-//flickr.com/photos/ravenkwok
- 
-ArrayList<Particle> pts;
-boolean onPressed, showInstruction;
-PFont f;
- 
-int seed = floor(random(4)+1);
+var brush;
+var count = 0;
+var running = true;
 
-void setup() {
-  size(720, 720, P2D);
-  smooth();
-  frameRate(30);
-  colorMode(RGB);
-  rectMode(CENTER);
- 
-  pts = new ArrayList<Particle>();
- 
-  showInstruction = true;
-  f = createFont("Calibri", 24, true);
- 
-  background(255);
-}
- 
-void draw() {
-  if (showInstruction) {
-    background(255);
-    fill(128);
-    textAlign(CENTER, CENTER);
-    textFont(f);
-    textLeading(36);
-    text("Drag and draw." + "\n" +
-      "Press 'c' to clear the stage." + "\n"
-      , width*0.5, height*0.5);
-  }
- 
-  if (onPressed) {
-    for (int i=0;i<10;i++) {
-      Particle newP = new Particle(mouseX, mouseY, i+pts.size(), i+pts.size());
-			newP.initColor(seed);
-      pts.add(newP);
-    }
-  }
- 
-  for (int i=0; i<pts.size(); i++) {
-    Particle p = pts.get(i);
-		
-    p.update();
-    p.display();
-  }
- 
-  for (int i=pts.size()-1; i>-1; i--) {
-    Particle p = pts.get(i);
-    if (p.dead) {
-      pts.remove(i);
-    }
-  }
-}
- 
-void mousePressed() {
-  onPressed = true;
-  if (showInstruction) {
-    background(255);
-    showInstruction = false;
-  }
-}
- 
-void mouseReleased() {
-  onPressed = false;
-}
- 
-void keyPressed() {
-  if (key == 'c') {
-    for (int i=pts.size()-1; i>-1; i--) {
-      Particle p = pts.get(i);
-      pts.remove(i);
-    }
-    background(255);
-  }
-}
- 
-class Particle{
-  PVector loc, vel, acc;
-  int lifeSpan, passedLife;
-  boolean dead;
-  float alpha, weight, weightRange, decay, xOffset, yOffset;
-  color c;
-	int seed = 2;
-   
-  Particle(float x, float y, float xOffset, float yOffset){
-    loc = new PVector(x,y);
-     
-    float randDegrees = random(360);
-    vel = new PVector(cos(radians(randDegrees)), sin(radians(randDegrees)));
-    vel.mult(random(5));
-     
-    acc = new PVector(0,0);
-    lifeSpan = int(random(30, 90));
-    decay = random(0.75, 0.9);
-		
-		 //seed = floor(random(4)+1);
-		
-		
-    
-    weightRange = random(3,50);
-     
-    this.xOffset = xOffset;
-    this.yOffset = yOffset;
-  }
-  
-void initColor(_seed) {
-	seed = _seed;
-	
-	c = color(255,random(255),255);
-		switch(seed) {
-			case 1:
-				c = color(random(255),random(255),255);
-				break;
-				
-				case 2:
-				c = color(255,random(255),random(255));
-				break;
-				
-				case 3:
-				c = color(random(255),255,random(255));
-				break;
-				
-				case 4:
-				c = color(random(120)+125,random(120)+125,random(120)+125);
-				break;
-		}
+function setup() {
+  createCanvas(windowHeight - 100, windowHeight - 100);
+  background(20);
+
+  colorMode(HSB, 1.0);
+
+  imageMode(CENTER);
+
+  brush = createGraphics(windowHeight / 50, windowHeight / 1);
+  brush.colorMode(HSB, 0.0);
+  makeBrush();
+
+  rect(0, 0, width, height, 0);
+  noiseDetail(3, 0);
 }
 
-  void update(){
-    if(passedLife>=lifeSpan){
-      dead = true;
-    }else{
-      passedLife++;
-    }
-     
-    alpha = float(lifeSpan-passedLife)/lifeSpan * 70+50;
-    weight = float(lifeSpan-passedLife)/lifeSpan * weightRange;
-     
-    acc.set(0,0);
-     
-    float rn = (noise((loc.x+frameCount+xOffset)*0.01, (loc.y+frameCount+yOffset)*0.01)-0.5)*4*PI;
-    float mag = noise((loc.y+frameCount)*0.01, (loc.x+frameCount)*0.01);
-    PVector dir = new PVector(cos(rn),sin(rn));
-    acc.add(dir);
-    acc.mult(mag);
-     
-    float randDegrees = random(360);
-    PVector randV = new PVector(cos(radians(randDegrees)), sin(radians(randDegrees)));
-    randV.mult(0.5);
-    acc.add(randV);
-     
-    vel.add(acc);
-    vel.mult(decay);
-    vel.limit(3);
-    loc.add(vel);
-  }
-   
-  void display(){
-    strokeWeight(weight+1.5);
-    stroke(0, alpha);
-    point(loc.x, loc.y);
-     
-    strokeWeight(weight);
-    stroke(c);
-    point(loc.x, loc.y);
-    
-    
-    strokeWeight(weight+1.5);
-    stroke(0, alpha);
-    //point(loc.y, loc.x);
-		point(width-loc.x, loc.y);
-     
-    strokeWeight(weight);
-    stroke(c);
-    point(width-loc.x, loc.y);
+function draw() {
+  if (mouseX != 0 && mouseY != 0 && running) {
+    for (var i = 0; i < 3; i++) {
+      var x = mouseX + map(noise(count * 0.0025, 1.5), 0, 1, -1, 1) * 100;
+      var y = mouseY + map(noise(count * 0.0025, 2.5), 0, 1, -1, 1) * 100;
+      var a = noise(count * 0.001, 3.5) * TWO_PI * 10;
+      var s = noise(count * 0.03, 5.5);
 
-    
+      var hue = map(noise(count * 0.01, 5.5), 0.33, 0.66, 0, 1);
+      tint(hue, 0.25, 1, noise(count * 0.001, 7.5) * 0.5);
+
+      push();
+      translate(x, y);
+      rotate(a);
+      scale(s, s);
+      image(brush, 0, 0);
+      pop();
+
+      push();
+      translate(width - x, y);
+      rotate(-a);
+      scale(-s, s);
+      image(brush, 0, 0);
+      pop();
+
+      count++;
+    }
   }
+}
+
+function keyPressed() {
+  if (keyCode == 32) {
+    makeBrush();
+  }
+  if (keyCode == 80) {
+    running = !running;
+  }
+}
+
+function makeBrush() {
+  brush.clear();
+  brush.noFill();
+  noiseSeed(random(-100000, 100000));
+  for (var i = 0; i < 10; i++) {
+    brush.strokeWeight(random() * 2);
+    brush.stroke(random(), 0.5, 1, random() * 0.5);
+    brush.ellipse(
+      random(20, brush.width),
+      random(0, brush.height),
+      random(10, brush.width)
+    );
+  }
+  noStroke();
+  fill(0, 0, 0.1, 1);
+  clear();
+  rect(0, 0, width, height, 0);
 }
